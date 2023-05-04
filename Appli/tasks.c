@@ -53,20 +53,28 @@ extern int pi_spigot_main(void);
 //===============================================================================================================================
 TASK(Idle)
 {
+  uint32 new_timeout     = 0;
+  const uint32 timeout   = 1000u;
+  uint32 prescaler       = 2u;
+
   for(;;)
   {
-    OS_Schedule();
-
     const int pi_spigot_result = pi_spigot_main();
 
-    #if defined(PI_SPIGOT_USE_COOP_MULTITASK)
     if(pi_spigot_result != 0)
     {
-      /* In case of error we switch off the task */
-      OS_TerminateTask();
+      (void)OS_CancelAlarm(ALARM_WAKE_UP);
     }
-    #else
-    (void) pi_spigot_result;
+    else
+    {
+      (void)OS_CancelAlarm(ALARM_WAKE_UP);
+      prescaler  ^= 2u;
+      new_timeout = (prescaler != 0) ? (timeout/prescaler): timeout;
+      (void) OS_SetRelAlarm(ALARM_WAKE_UP, 0, new_timeout);
+    }
+
+    #if defined(PI_SPIGOT_USE_COOP_MULTITASK)
+    OS_Schedule();
     #endif
   }
 }

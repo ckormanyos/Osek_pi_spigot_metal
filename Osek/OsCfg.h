@@ -13,7 +13,7 @@
 
 #include"OsGenMac.h"
 
-#define PI_SPIGOT_USE_COOP_MULTITASK
+//#define PI_SPIGOT_USE_COOP_MULTITASK
 
 //=============================================================================
 //  OS Configuration
@@ -21,15 +21,15 @@
 
 OS_CONFIG_BEGIN
 
-  #if defined(PI_SPIGOT_USE_COOP_MULTITASK)
   OS_TASK_BEGIN
+  #if defined(PI_SPIGOT_USE_COOP_MULTITASK)
     OS_TASK_DEF(Idle ,0 ,2048 ,1 ,OS_AUTOSTART    ,EXTENDED ,NONE_PREEMPT)
     OS_TASK_DEF(T1   ,1 ,2048 ,1 ,OS_AUTOSTART    ,EXTENDED ,NONE_PREEMPT)
-  OS_TASK_END
   #else
     OS_TASK_DEF(Idle ,0 ,2048 ,1 ,OS_AUTOSTART    ,EXTENDED ,FULL_PREEMPT)
     OS_TASK_DEF(T1   ,1 ,2048 ,1 ,OS_AUTOSTART    ,EXTENDED ,FULL_PREEMPT)
   #endif
+  OS_TASK_END
 
   OS_EVENT_BEGIN
    OS_EVENT_DEF(EVT_WAKE_UP               , (1UL<<0))

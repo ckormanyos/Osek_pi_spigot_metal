@@ -1,0 +1,34 @@
+/*********************************************************************
+*                 (c) SEGGER Microcontroller GmbH                    *
+*                      The Embedded Experts                          *
+*                         www.segger.com                             *
+**********************************************************************
+                                                                      
+File          : D:/Git_Repo/Osek_pi_spigot_metal/Debug.jdebug
+Created       : 4 Jun 2023 18:26
+Ozone Version : V3.20
+*/
+
+/*********************************************************************
+*                                                                     
+*       OnProjectLoad                                                 
+*                                                                     
+* Function description                                                
+*   Project load routine. Required.                                   
+*                                                                     
+**********************************************************************
+*/                                                                    
+void OnProjectLoad (void) {
+  //
+  // Dialog-generated settings
+  //
+  Project.SetDevice ("ARM11");
+  Project.SetHostIF ("USB", "");
+  Project.SetTargetIF ("JTAG");
+  Project.SetTIFSpeed ("4 MHz");
+  Project.AddSvdFile ("$(InstallDir)/Config/CPU/ARM11.svd");
+  //
+  // User settings
+  //
+  File.Open ("$(ProjectDir)/Output/Osek_pi_spigot_metal.elf");
+}

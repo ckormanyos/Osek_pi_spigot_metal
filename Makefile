@@ -19,11 +19,10 @@ HW_TARGET  = pi_spigot_metal
 PRJ_NAME   = Osek_$(HW_TARGET)
 OUTPUT_DIR = $(CURDIR)/Output
 OBJ_DIR    = $(CURDIR)/Tmp/Obj
-
 SRC_DIR    = $(CURDIR)
 
-LD_SCRIPT  = $(SRC_DIR)/Startup/Memory_Map.ld
-
+CC_ERR_FORMAT_SCRIPT = CompilerErrorFormater.py
+LD_SCRIPT            = $(SRC_DIR)/Startup/Memory_Map.ld
 ############################################################################################
 # Toolchain
 ############################################################################################
@@ -37,7 +36,7 @@ NM      = arm-none-eabi-nm
 OBJDUMP = arm-none-eabi-objdump
 OBJCOPY = arm-none-eabi-objcopy
 READELF = arm-none-eabi-readelf
-
+PYTHON  = python
 ############################################################################################
 # C Compiler flags
 ############################################################################################
@@ -176,17 +175,17 @@ clean :
 $(OBJ_DIR)/%.o : %.c
 	@-echo +++ compile: $(subst \,/,$<) to $(subst \,/,$@)
 	@-$(CC) $(COPS) $(addprefix -I, $(INC_FILES)) -c $< -o $(OBJ_DIR)/$(basename $(@F)).o 2> $(OBJ_DIR)/$(basename $(@F)).err
-	@-cat $(OBJ_DIR)/$(basename $(@F)).err
+	@-$(PYTHON) $(CC_ERR_FORMAT_SCRIPT) $(OBJ_DIR)/$(basename $(@F)).err -COLOR
 
 $(OBJ_DIR)/%.o : %.s
 	@-echo +++ compile: $(subst \,/,$<) to $(subst \,/,$@)
 	@$(AS) $(ASOPS) -c $< -o $(OBJ_DIR)/$(basename $(@F)).o 2> $(OBJ_DIR)/$(basename $(@F)).err >$(OBJ_DIR)/$(basename $(@F)).lst
-	@-cat $(OBJ_DIR)/$(basename $(@F)).err
+	@-$(PYTHON) $(CC_ERR_FORMAT_SCRIPT) $(OBJ_DIR)/$(basename $(@F)).err -COLOR
 
 $(OBJ_DIR)/%.o : %.cpp
 	@-echo +++ compile: $(subst \,/,$<) to $(subst \,/,$@)
 	@$(CPP) $(CPPOPS) $(addprefix -I, $(INC_FILES)) -c $< -o $(OBJ_DIR)/$(basename $(@F)).o 2> $(OBJ_DIR)/$(basename $(@F)).err
-	@-cat $(OBJ_DIR)/$(basename $(@F)).err
+	@-$(PYTHON) $(CC_ERR_FORMAT_SCRIPT) $(OBJ_DIR)/$(basename $(@F)).err -COLOR
 
 $(OUTPUT_DIR)/$(PRJ_NAME).elf : $(FILES_O)
 	@$(LD) $(LOPS) $(FILES_O) -o $(OUTPUT_DIR)/$(PRJ_NAME).elf
