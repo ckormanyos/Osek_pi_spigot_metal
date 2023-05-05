@@ -14,16 +14,19 @@
   #include <stdint.h>
   #endif
 
+  #include <mcal_port_expander_base.h>
   #include <mcal_reg.h>
 
   #if defined(__cplusplus)
 
-  void mcal_port_pin_expander_set_direction_output(const uint8_t bpos);
-  void mcal_port_pin_expander_set_direction_input (const uint8_t bpos);
-  void mcal_port_pin_expander_set_pin_high        (const uint8_t bpos);
-  void mcal_port_pin_expander_set_pin_low         (const uint8_t bpos);
-  bool mcal_port_pin_expander_read_input_value    (const uint8_t bpos);
-  void mcal_port_pin_expander_toggle_pin          (const uint8_t bpos);
+  mcal::port::port_expander_base& mcal_port_pin_expander_device();
+
+  static inline void mcal_port_pin_expander_set_direction_output(const uint8_t bpos) { mcal_port_pin_expander_device().set_direction_output(bpos); }
+  static inline void mcal_port_pin_expander_set_direction_input (const uint8_t bpos) { mcal_port_pin_expander_device().set_direction_input(bpos); }
+  static inline void mcal_port_pin_expander_set_pin_high        (const uint8_t bpos) { mcal_port_pin_expander_device().set_pin_high(bpos); }
+  static inline void mcal_port_pin_expander_set_pin_low         (const uint8_t bpos) { mcal_port_pin_expander_device().set_pin_low(bpos); }
+  static inline bool mcal_port_pin_expander_read_input_value    (const uint8_t bpos) { (void) bpos; return false; }
+  static inline void mcal_port_pin_expander_toggle_pin          (const uint8_t bpos) { mcal_port_pin_expander_device().toggle_pin(bpos); }
 
   namespace mcal
   {
