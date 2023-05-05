@@ -47,13 +47,11 @@ It runs on a
 [RaspberryPi(R)-Zero](https://www.raspberrypi.org/products/raspberry-pi-zero).
 
 The build system is set up to use GCC, making use of the `arm-none-eabi`
-compiler taken directly from the
-[real-time-cpp-toolchains](https://github.com/ckormanyos/real-time-cpp-toolchains)
-repository. The default optimization setting is `-O2`.
+compiler. The default optimization setting is `-O2`.
 
 The hardware setup is pictured in the image below.
 In this image, the target system has already completed
-one pi-spigot calculatoin and has begin a second one
+one pi-spigot calculation and has begun a second one
 back-to-back.
 
 ![](./images/Osek_pi_spigot_metal.jpg)
