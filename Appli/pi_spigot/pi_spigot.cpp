@@ -26,7 +26,7 @@
 #include <pi_spigot/pi_spigot.h>
 #include <util/utility/util_baselexical_cast.h>
 
-#define PI_SPIGOT_USE_10K_DIGITS
+//#define PI_SPIGOT_USE_10K_DIGITS
 
 auto pi_spigot_output_count_write(const std::uint32_t d10) -> void;
 

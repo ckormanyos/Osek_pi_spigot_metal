@@ -39,8 +39,8 @@ __FIQ_STACK_SIZE = 4K;
 
 MEMORY
 {
-  ROM(rwx) : ORIGIN = 0x00008000, LENGTH = 128K
-  RAM(rwx) : ORIGIN = 0x00028000, LENGTH = 16M - 128K
+  ROM(rwx) : ORIGIN = 0x00008000, LENGTH = 32K
+  RAM(rwx) : ORIGIN = 0x00010000, LENGTH = 2M - 32K
 }
 
 /******************************************************************************************
