@@ -51,7 +51,7 @@ compiler. The default optimization setting is `-O2`.
 
 The hardware setup is pictured in the image below.
 In this image, the target system has already completed
-one pi-spigot calculation and has begun a second one
-back-to-back.
+one pi-spigot calculation and is well underway on its
+second one back-to-back.
 
 ![](./images/Osek_pi_spigot_metal.jpg)
