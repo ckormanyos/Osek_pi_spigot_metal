@@ -9,7 +9,6 @@
 #include <cstddef>
 
 #include <mcal_cpu.h>
-#include <mcal_gpt.h>
 
 extern "C"
 {
