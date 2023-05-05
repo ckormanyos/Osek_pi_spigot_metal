@@ -23,6 +23,7 @@ SRC_DIR    = $(CURDIR)
 
 CC_ERR_FORMAT_SCRIPT = CompilerErrorFormater.py
 LD_SCRIPT            = $(SRC_DIR)/Startup/Memory_Map.ld
+
 ############################################################################################
 # Toolchain
 ############################################################################################
@@ -37,6 +38,7 @@ OBJDUMP = arm-none-eabi-objdump
 OBJCOPY = arm-none-eabi-objcopy
 READELF = arm-none-eabi-readelf
 PYTHON  = python
+
 ############################################################################################
 # C Compiler flags
 ############################################################################################
