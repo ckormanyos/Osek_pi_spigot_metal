@@ -1,4 +1,5 @@
-Osek_pi_spigot_metal
+Osek_pi_spigot_metal\
+[![Build Status](https://github.com/ckormanyos/Osek_pi_spigot_metal/actions/workflows/Osek_pi_spigot_metal.yml/badge.svg)](https://github.com/ckormanyos/Osek_pi_spigot_metal/actions)
 ==================
 
 Osek_pi_spigot_metal computes $100,001$ decimal digits
@@ -14,20 +15,20 @@ bare-metal embedded microcontroller systems.
 
 # Software Details
 
-In this project, $100,001$ decmal digits of $\pi$ (i.e., one hundred thousand and 1)
+In this project, $100,001$ decmal digits of $\pi$ (i.e., one-hundred-thousand-and-1)
 are computed with an order $N^2$ pi-spigot algorithm.
 The spigot calculation has quadratic numerical complexity
 and is (for high digit counts) generally considered slower
-than the other calculation methods such as AGM.
-It requires sightly less than an hour to compute $100,001$
-decimal digits on the target system.
+than some other popular calculation methods such as AGM.
+The one-hundred-thousand-and-1 decimal digit pi calculation
+requires slightly under 30 minutes on this target system.
 
 The microcontroller boots and performs static initialization via self-written
 startup code. Hardware setup including clock initialization,
 FPU enable, instruction caching, etc. is carried out with self-written
 hybrid assembly/C++ code shortly after reaching `main()`.
 
-The pi-spigot calculatoin runs continuously and successively in the
+The pi-spigot calculation runs continuously and successively in the
 application idle-task. LED-blinky and calculation progress
 presented on an LCD display are controlled in a higher-priority
 extended task named `T1`. Calculation correctness is verified with
@@ -42,3 +43,15 @@ The calculation does, however, require ample RAM of about 2 Mbyte.
 The target hardware on a breadboard is taken directly
 from the similar project
 [ckormanyos/pi_crunch_metal](https://github.com/ckormanyos/pi-crunch-metal).
+It runs on a
+[RaspberryPi(R)-Zero](https://www.raspberrypi.org/products/raspberry-pi-zero).
+
+The build system is set up to use GCC, making use of the `arm-none-eabi`
+compiler. The default optimization setting is `-O2`.
+
+The hardware setup is pictured in the image below.
+In this image, the target system has already completed
+one pi-spigot calculation and has begun a second one
+back-to-back.
+
+![](./images/Osek_pi_spigot_metal.jpg)
