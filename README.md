@@ -1,4 +1,4 @@
-Osek_pi_spigot_metal
+Osek_pi_spigot_metal\
 [![Build Status](https://github.com/ckormanyos/Osek_pi_spigot_metal/actions/workflows/Osek_pi_spigot_metal.yml/badge.svg)](https://github.com/ckormanyos/Osek_pi_spigot_metal/actions)
 ==================
 
@@ -15,13 +15,13 @@ bare-metal embedded microcontroller systems.
 
 # Software Details
 
-In this project, $100,001$ decmal digits of $\pi$ (i.e., one hundred thousand and 1)
+In this project, $100,001$ decmal digits of $\pi$ (i.e., one-hundred-thousand-and-1)
 are computed with an order $N^2$ pi-spigot algorithm.
 The spigot calculation has quadratic numerical complexity
 and is (for high digit counts) generally considered slower
-than the other calculation methods such as AGM.
-It requires sightly less than an hour to compute $100,001$
-decimal digits on the target system.
+than some other popular calculation methods such as AGM.
+The one-hundred-thousand-and-1 decimal digit pi calculation
+requires slightly under 30 minutes on this target system.
 
 The microcontroller boots and performs static initialization via self-written
 startup code. Hardware setup including clock initialization,
@@ -49,11 +49,7 @@ It runs on a
 The build system is set up to use GCC, making use of the `arm-none-eabi`
 compiler taken directly from the
 [real-time-cpp-toolchains](https://github.com/ckormanyos/real-time-cpp-toolchains)
-repository.
-
-The default optimization setting is `-O2` and the one-hundred-thousand-and-one
-decimal digit pi calculation takes slightly under 30 minutes
-on this target system with the above-mentioned compiler.
+repository. The default optimization setting is `-O2`.
 
 The hardware setup is pictured in the image below.
 In this image, the target system has already completed
