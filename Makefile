@@ -73,6 +73,8 @@ CPPOPS       = -x c++                                         \
                -fno-use-cxa-atexit                            \
                -fno-nonansi-builtins                          \
                -fno-threadsafe-statics                        \
+               -finline-functions                             \
+               -finline-limit=32                              \
                -Wzero-as-null-pointer-constant
 
 ############################################################################################
