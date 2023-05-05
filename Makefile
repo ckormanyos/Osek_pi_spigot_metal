@@ -121,7 +121,6 @@ SRC_FILES :=  $(SRC_DIR)/Appli/main                                             
               $(SRC_DIR)/ref_app/src/mcal/bcm2835_raspi_b/mcal_cpu_detail             \
               $(SRC_DIR)/ref_app/src/mcal/bcm2835_raspi_b/mcal_cpu_detail_secure      \
               $(SRC_DIR)/ref_app/src/mcal/bcm2835_raspi_b/mcal_gpt                    \
-              $(SRC_DIR)/ref_app/src/mcal/bcm2835_raspi_b/mcal_irq                    \
               $(SRC_DIR)/ref_app/src/mcal/bcm2835_raspi_b/mcal_lcd                    \
               $(SRC_DIR)/ref_app/src/mcal/bcm2835_raspi_b/mcal_led                    \
               $(SRC_DIR)/ref_app/src/mcal/bcm2835_raspi_b/mcal_port                   \
