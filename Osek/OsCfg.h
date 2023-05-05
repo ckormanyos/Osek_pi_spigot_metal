@@ -13,30 +13,25 @@
 
 #include"OsGenMac.h"
 
-#define PI_SPIGOT_USE_COOP_MULTITASK
-
 //=============================================================================
 //  OS Configuration
 //=============================================================================
 
 OS_CONFIG_BEGIN
 
-  #if defined(PI_SPIGOT_USE_COOP_MULTITASK)
   OS_TASK_BEGIN
-    OS_TASK_DEF(Idle ,0 ,2048 ,1 ,OS_AUTOSTART    ,EXTENDED ,NONE_PREEMPT)
-    OS_TASK_DEF(T1   ,1 ,2048 ,1 ,OS_AUTOSTART    ,EXTENDED ,NONE_PREEMPT)
+    OS_TASK_DEF(Idle ,1 ,2048 ,1 ,OS_AUTOSTART    ,EXTENDED ,FULL_PREEMPT)
+    OS_TASK_DEF(T1   ,4 ,2048 ,1 ,OS_AUTOSTART    ,EXTENDED ,FULL_PREEMPT)
   OS_TASK_END
-  #else
-    OS_TASK_DEF(Idle ,0 ,2048 ,1 ,OS_AUTOSTART    ,EXTENDED ,FULL_PREEMPT)
-    OS_TASK_DEF(T1   ,1 ,2048 ,1 ,OS_AUTOSTART    ,EXTENDED ,FULL_PREEMPT)
-  #endif
 
   OS_EVENT_BEGIN
-   OS_EVENT_DEF(EVT_WAKE_UP               , (1UL<<0))
+   OS_EVENT_DEF(EVT_LED_BLINK               , (1UL<<0))
+   OS_EVENT_DEF(EVT_LCD_PROGRESS            , (1UL<<1))
   OS_EVENT_END
-  
+
   OS_ALARM_BEGIN
-    OS_ALARM_DEF(ALARM_WAKE_UP         ,ALARM_SET_EVENT   ,EVT_WAKE_UP          ,T1   ,0)
+    OS_ALARM_DEF(ALARM_LED_BLINK        ,ALARM_SET_EVENT     ,EVT_LED_BLINK             ,T1   ,0)
+    OS_ALARM_DEF(ALARM_LCD_PROGRESS     ,ALARM_SET_EVENT     ,EVT_LCD_PROGRESS          ,T1   ,0)
   OS_ALARM_END
 
   OS_RESOURCE_BEGIN
