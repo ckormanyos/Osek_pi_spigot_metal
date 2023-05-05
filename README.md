@@ -1,4 +1,5 @@
 Osek_pi_spigot_metal
+[![Build Status](https://github.com/ckormanyos/Osek_pi_spigot_metal/actions/workflows/Osek_pi_spigot_metal.yml/badge.svg)](https://github.com/ckormanyos/Osek_pi_spigot_metal/actions)
 ==================
 
 Osek_pi_spigot_metal computes $100,001$ decimal digits
@@ -27,7 +28,7 @@ startup code. Hardware setup including clock initialization,
 FPU enable, instruction caching, etc. is carried out with self-written
 hybrid assembly/C++ code shortly after reaching `main()`.
 
-The pi-spigot calculatoin runs continuously and successively in the
+The pi-spigot calculation runs continuously and successively in the
 application idle-task. LED-blinky and calculation progress
 presented on an LCD display are controlled in a higher-priority
 extended task named `T1`. Calculation correctness is verified with
@@ -42,3 +43,21 @@ The calculation does, however, require ample RAM of about 2 Mbyte.
 The target hardware on a breadboard is taken directly
 from the similar project
 [ckormanyos/pi_crunch_metal](https://github.com/ckormanyos/pi-crunch-metal).
+It runs on a
+[RaspberryPi(R)-Zero](https://www.raspberrypi.org/products/raspberry-pi-zero).
+
+The build system is set up to use GCC, making use of the `arm-none-eabi`
+compiler taken directly from the
+[real-time-cpp-toolchains](https://github.com/ckormanyos/real-time-cpp-toolchains)
+repository.
+
+The default optimization setting is `-O2` and the one-hundred-thousand-and-one
+decimal digit pi calculation takes slightly under 30 minutes
+on this target system with the above-mentioned compiler.
+
+The hardware setup is pictured in the image below.
+In this image, the target system has already completed
+one pi-spigot calculatoin and has begin a second one
+back-to-back.
+
+![](./images/Osek_pi_spigot_metal.jpg)
