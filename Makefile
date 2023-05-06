@@ -128,9 +128,11 @@ SRC_FILES :=  $(SRC_DIR)/Appli/main                                             
               $(SRC_DIR)/ref_app/src/mcal/bcm2835_raspi_b/mcal_led                    \
               $(SRC_DIR)/ref_app/src/mcal/bcm2835_raspi_b/mcal_port                   \
               $(SRC_DIR)/ref_app/src/mcal/bcm2835_raspi_b/mcal_spi                    \
+              $(SRC_DIR)/Startup/crt0                                                 \
+              $(SRC_DIR)/Startup/crt0_init_ram                                        \
+              $(SRC_DIR)/Startup/crt1                                                 \
               $(SRC_DIR)/Startup/Exceptions                                           \
-              $(SRC_DIR)/Startup/IntVectTable                                         \
-              $(SRC_DIR)/Startup/Startup                                              \
+              $(SRC_DIR)/Startup/IntVectTable
 
 ############################################################################################
 # Include Paths
@@ -165,13 +167,13 @@ all : clean $(OUTPUT_DIR)/$(PRJ_NAME).elf
 
 .PHONY : clean
 clean :
-	@-rm -rf $(OBJ_DIR) *.o       2>/dev/null || true
-	@-rm -rf $(OBJ_DIR) *.err     2>/dev/null || true
-	@-rm -rf $(OUTPUT_DIR) *.hex  2>/dev/null || true
-	@-rm -rf $(OUTPUT_DIR) *.elf  2>/dev/null || true
-	@-rm -rf $(OUTPUT_DIR) *.list 2>/dev/null || true
-	@-rm -rf $(OUTPUT_DIR) *.map  2>/dev/null || true
-	@-rm -rf $(OUTPUT_DIR) *.txt  2>/dev/null || true
+	@-rm -f $(OBJ_DIR)/*.o       2>/dev/null || true
+	@-rm -f $(OBJ_DIR)/*.err     2>/dev/null || true
+	@-rm -f $(OUTPUT_DIR)/*.hex  2>/dev/null || true
+	@-rm -f $(OUTPUT_DIR)/*.elf  2>/dev/null || true
+	@-rm -f $(OUTPUT_DIR)/*.list 2>/dev/null || true
+	@-rm -f $(OUTPUT_DIR)/*.map  2>/dev/null || true
+	@-rm -f $(OUTPUT_DIR)/*.txt  2>/dev/null || true
 	@-mkdir -p $(OBJ_DIR)
 	@-mkdir -p $(OUTPUT_DIR)
 
