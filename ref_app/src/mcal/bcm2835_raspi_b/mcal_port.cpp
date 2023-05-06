@@ -8,7 +8,7 @@
 #include <mcal_port.h>
 #include <mcal_port_expander_microchip_mcp23s17.h>
 
-mcal::port::port_expander_base& mcal_port_pin_expander_device()
+auto mcal::port::port_expander_device() -> mcal::port::port_expander_base&
 {
   using local_port_pin_expander_type =
     mcal::port::port_pin_expander_microchip_mcp23s17<static_cast<std::uint8_t>(UINT8_C(2))>;

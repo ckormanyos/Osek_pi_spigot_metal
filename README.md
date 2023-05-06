@@ -1,6 +1,16 @@
-Osek_pi_spigot_metal\
-[![Build Status](https://github.com/ckormanyos/Osek_pi_spigot_metal/actions/workflows/Osek_pi_spigot_metal.yml/badge.svg)](https://github.com/ckormanyos/Osek_pi_spigot_metal/actions)
+Osek_pi_spigot_metal
 ==================
+
+<p align="center">
+    <a href="https://github.com/ckormanyos/Osek_pi_spigot_metal/actions">
+        <img src="https://github.com/ckormanyos/Osek_pi_spigot_metal/actions/workflows/Osek_pi_spigot_metal.yml/badge.svg" alt="Build Status"></a>
+    <a href="https://github.com/ckormanyos/Osek_pi_spigot_metal/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc">
+        <img src="https://custom-icon-badges.herokuapp.com/github/issues-raw/ckormanyos/Osek_pi_spigot_metal?logo=github" alt="Issues" /></a>
+    <a href="https://github.com/ckormanyos/Osek_pi_spigot_metal/blob/master/LICENSE_1_0.txt">
+        <img src="https://img.shields.io/badge/license-BSL%201.0-blue.svg" alt="Boost Software License 1.0"></a>
+    <a href="https://github.com/ckormanyos/Osek_pi_spigot_metal">
+        <img src="https://img.shields.io/github/languages/code-size/ckormanyos/Osek_pi_spigot_metal" alt="GitHub code size in bytes" /></a>
+</p>
 
 Osek_pi_spigot_metal computes $100,001$ decimal digits
 of the mathematical constant $\pi$ on a bare-metal RaspberryPi(R)-Zero system.
