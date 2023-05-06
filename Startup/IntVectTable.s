@@ -23,6 +23,7 @@
   b OsCat2IsrIrqWrapper    //IRQ (interrupt)
   b OsCat1Isr              //FIQ (fast interrupt)
 
+.extern __my_startup
 
 .section .text, "ax"
 .globl reset
@@ -102,5 +103,4 @@ reset:
   vmsr fpexc,r0
 
   /* Jump to the C-Runtime Startup */
-  b Startup_Init
-
+  b __my_startup

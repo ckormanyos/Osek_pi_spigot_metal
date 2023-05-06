@@ -1,31 +1,29 @@
-/******************************************************************************************
-  Filename    : Memory_Map.ld
-  
-  Core        : ARM1176JZF-S
-  
-  Author      : Chalandi Amine
- 
-  Owner       : Chalandi Amine
-  
-  Date        : 11.03.2020
-  
-  Description : Linker description file for ARM1176JZF-S(ARMv6)
-  
-******************************************************************************************/
+/*
+ Copyright Christopher Kormanyos 2013 - 2021.
+ Distributed under the Boost Software License,
+ Version 1.0. (See accompanying file LICENSE_1_0.txt
+ or copy at http://www.boost.org/LICENSE_1_0.txt)
+*/
+
+/* Linker script for RaspberryPi(R) ARM(R) A11 MCU */
+
+ENTRY(__my_startup)
 
 INPUT(libc.a libm.a libgcc.a)
 
 OUTPUT_FORMAT("elf32-littlearm", "elf32-littlearm", "elf32-littlearm")
 OUTPUT_ARCH(arm)
 
-/******************************************************************************************
- ELF Entrypoint
-******************************************************************************************/
-ENTRY(reset)
+/* The beginning and end of the program ROM area */
+/* Set up a ROM area with a size of 32K */
+_rom_begin = 0x00008000;
+_rom_end   = 0x00010000;
 
-/******************************************************************************************
- Globals
-******************************************************************************************/
+/* The beginning of the RAM area */
+_ram_begin = 0x00010000;
+
+/* Set up the various stacks with total size of 16K. */
+
 __SYS_STACK_SIZE = 4K;
 __SVC_STACK_SIZE = 4K;
 __ABT_STACK_SIZE = 4K;
@@ -33,75 +31,63 @@ __UND_STACK_SIZE = 4K;
 __IRQ_STACK_SIZE = 4K;
 __FIQ_STACK_SIZE = 4K;
 
-/******************************************************************************************
- Internal flash configuration
-******************************************************************************************/
+/* Set up the memory regions. */
 
 MEMORY
 {
-  ROM(rwx) : ORIGIN = 0x00008000, LENGTH = 32K
-  RAM(rwx) : ORIGIN = 0x00010000, LENGTH = 2M - 32K
+  ROM   (rwx) : ORIGIN = 0x00008000, LENGTH = 0x00008000
+  STACKS(rwx) : ORIGIN = 0x00010000, LENGTH =   __SYS_STACK_SIZE
+                                              + __SVC_STACK_SIZE
+                                              + __ABT_STACK_SIZE
+                                              + __UND_STACK_SIZE
+                                              + __IRQ_STACK_SIZE
+                                              + __FIQ_STACK_SIZE
+  RAM   (rwx) : ORIGIN = 0x00016000, LENGTH = 2M - 0x00006000
 }
 
-/******************************************************************************************
- Sections definition
-******************************************************************************************/
 SECTIONS
 {
+  . = 0x00008000;
+  . = ALIGN(4);
+
   /* Interrupt vector table */
   .intvect :
   {
     PROVIDE(__INTVECT_BASE_ADDRESS = .) ;
     *(.intvect)
-    . = ALIGN(4);
+    . = ALIGN(0x10);
     KEEP(*(.intvect))
-  } > ROM
+  } > ROM = 0xAAAA
 
-  /* Program code (text) */
+  /* Startup: This is where the program starts. */
+  .startup :
+  {
+    *(.startup)
+    . = ALIGN(0x10);
+    KEEP(*(.startup))
+  } > ROM = 0x5555
+
+  /* Program code (text), read-only data and static ctors */
   .text :
   {
+    _ctors_begin = .;
+    KEEP(*(SORT(.init_array.*)))
+    KEEP(*(.init_array*))
+    _ctors_end = .;
     *(.progmem*)
     . = ALIGN(4);
     *(.text)
     . = ALIGN(4);
     *(.text*)
     . = ALIGN(4);
-    *(.glue_7)
-    . = ALIGN(4);
-    *(.glue_7t)
-    . = ALIGN(4);
-  } > ROM
-
-  /* Read-only data (.rodata) */
-  .rodata :
-  {
     *(.rodata)
     . = ALIGN(4);
     *(.rodata*)
     . = ALIGN(4);
-  } > ROM
-
- /* Section for constructors */
-  .ctors :
-  {
-    __CTOR_LIST__ = . ;
-    LONG((__CTOR_END__ - __CTOR_LIST__) / 4 - 2);
-    KEEP (*(SORT(.ctors.*)))
-    KEEP (*(.ctors))
-    KEEP (*(SORT(.init_array.*)))
-    KEEP (*(.init_array))
-    LONG(0) ;
-    __CTOR_END__ = . ;
-    . = ALIGN(8);
-  }  > ROM
-
-  /* Runtime clear table */
-  .clear_sec :
-  {
-    . = ALIGN(8);
-    PROVIDE(__RUNTIME_CLEAR_TABLE = .) ;
-    LONG(0 + ADDR(.bss));   LONG(SIZEOF(.bss));
-    LONG(-1);               LONG(-1);
+    *(.glue_7)
+    . = ALIGN(4);
+    *(.glue_7t)
+    . = ALIGN(4);
   } > ROM
 
   .ARM.extab :
@@ -126,68 +112,81 @@ SECTIONS
     *(.ARM.attributes)
   } > ROM
 
-  /* Runtime copy table */	
-  .copy_sec :
-  {
-    . = ALIGN(8);
-    PROVIDE(__RUNTIME_COPY_TABLE = .) ;
-    LONG(LOADADDR(.data));  LONG(0 + ADDR(.data));  LONG(SIZEOF(.data));
-    LONG(-1);               LONG(-1);               LONG(-1);
-  } > ROM
-
-  /* The ROM-to-RAM initialized data section */
-  .data :
-  {
-    *(.data)
-    . = ALIGN(4);
-  } > RAM  AT>ROM
-
-  /* The uninitialized (zero-cleared) bss section */
-  .bss :
-  {
-    *(.bss)
-    . = ALIGN(4);
-  } > RAM
+  . = 0x00010000;
+  . = ALIGN(4);
 
   /* user-system mode stack definition */
   .stack_sys :
   {
     . = ALIGN(MAX(__SYS_STACK_SIZE , .), 8);
     PROVIDE(__SYS_STACK_TOP = .) ;
-  } > RAM
+  } > STACKS
 
   /* Supervisor mode stack definition */
   .stack_svc :
   {
     . = ALIGN(MAX(__SVC_STACK_SIZE , .), 8);
     PROVIDE(__SVC_STACK_TOP = .) ;
-  } > RAM
+  } > STACKS
 
   /* Abort mode stack definition */
   .stack_abt :
   {
     . = ALIGN(MAX(__ABT_STACK_SIZE , .), 8);
     PROVIDE(__ABT_STACK_TOP = .) ;
-  } > RAM
+  } > STACKS
 
   /* Undefined mode stack definition */
   .stack_und :
   {
     . = ALIGN(MAX(__UND_STACK_SIZE , .), 8);
     PROVIDE(__UND_STACK_TOP = .) ;
-  } > RAM
+  } > STACKS
 
   /* Interrupt mode stack definition */
   .stack_irq :
   {
     . = ALIGN(MAX(__IRQ_STACK_SIZE , .), 8);
     PROVIDE(__IRQ_STACK_TOP = .) ;
-  } > RAM
+  } > STACKS
 
   /* Fast interrupt mode stack definition */
   .stack_fiq :
   {
     . = ALIGN(MAX(__FIQ_STACK_SIZE , .), 8);
     PROVIDE(__FIQ_STACK_TOP = .) ;
+  } > STACKS
+
+  . = 0x00016000;
+  . = ALIGN(4);
+
+  /* The ROM-to-RAM initialized data section */
+  .data :
+  {
+    _data_begin = .;
+    *(.data)
+    . = ALIGN(4);
+    KEEP (*(.data))
+    *(.data*)
+    . = ALIGN(4);
+    KEEP (*(.data*))
+    _data_end = .;
+  } > RAM AT > ROM
+
+  /* The uninitialized (zero-cleared) data section */
+  .bss :
+  {
+    _bss_begin = .;
+    *(.bss)
+    . = ALIGN(4);
+    KEEP (*(.bss))
+    *(.bss*)
+    . = ALIGN(4);
+    KEEP (*(.bss*))
+    _bss_end = .;
   } > RAM
+
+  PROVIDE(end = .);
+
+  _rom_data_begin = LOADADDR(.data);
 }

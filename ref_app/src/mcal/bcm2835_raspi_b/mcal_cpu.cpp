@@ -8,14 +8,6 @@
 #include <mcal_cpu.h>
 #include <mcal_cpu_detail_secure.h>
 
-extern "C"
-auto mcal_cpu_init(void) -> void;
-
-auto mcal_cpu_init(void) -> void
-{
-  mcal::cpu::init();
-}
-
 void mcal::cpu::init()
 {
   detail::init();

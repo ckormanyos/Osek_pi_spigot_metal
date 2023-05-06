@@ -12,13 +12,9 @@
 
 extern void mcal_init(void);
 
-extern void mcal_cpu_init(void);
-
 int main(void)
 {
   mcal_init();
-
-  mcal_cpu_init();
 
   OS_StartOS(APP_MODE_DEFAULT);
 
