@@ -1,5 +1,5 @@
 /*
- Copyright Christopher Kormanyos 2013 - 2021.
+ Copyright Christopher Kormanyos 2013 - 2023.
  Distributed under the Boost Software License,
  Version 1.0. (See accompanying file LICENSE_1_0.txt
  or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -14,14 +14,6 @@ INPUT(libc.a libm.a libgcc.a)
 OUTPUT_FORMAT("elf32-littlearm", "elf32-littlearm", "elf32-littlearm")
 OUTPUT_ARCH(arm)
 
-/* The beginning and end of the program ROM area */
-/* Set up a ROM area with a size of 32K */
-_rom_begin = 0x00008000;
-_rom_end   = 0x00010000;
-
-/* The beginning of the RAM area */
-_ram_begin = 0x00010000;
-
 /* Set up the various stacks with total size of 16K. */
 
 __SYS_STACK_SIZE = 4K;
@@ -35,14 +27,14 @@ __FIQ_STACK_SIZE = 4K;
 
 MEMORY
 {
-  ROM   (rwx) : ORIGIN = 0x00008000, LENGTH = 0x00008000
-  STACKS(rwx) : ORIGIN = 0x00010000, LENGTH =   __SYS_STACK_SIZE
+  ROM   (rwx) : ORIGIN = 0x00008000, LENGTH = 0x0007A000
+  STACKS(rwx) : ORIGIN = 0x00082000, LENGTH =   __SYS_STACK_SIZE
                                               + __SVC_STACK_SIZE
                                               + __ABT_STACK_SIZE
                                               + __UND_STACK_SIZE
                                               + __IRQ_STACK_SIZE
                                               + __FIQ_STACK_SIZE
-  RAM   (rwx) : ORIGIN = 0x00016000, LENGTH = 2M - 0x00006000
+  RAM   (rwx) : ORIGIN = 0x00088000, LENGTH = 24M - 512K
 }
 
 SECTIONS
@@ -120,7 +112,7 @@ SECTIONS
     *(.ARM.attributes)
   } > ROM
 
-  . = 0x00010000;
+  . = 0x00082000;
   . = ALIGN(4);
 
   /* user-system mode stack definition */
@@ -165,7 +157,7 @@ SECTIONS
     PROVIDE(__FIQ_STACK_TOP = .) ;
   } > STACKS
 
-  . = 0x00016000;
+  . = 0x00088000;
   . = ALIGN(4);
 
   /* The ROM-to-RAM initialized data section */

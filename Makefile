@@ -93,8 +93,8 @@ LOPS         = -x none                                        \
                -nostdlib                                      \
                -specs=nano.specs                              \
                -specs=nosys.specs                             \
+               -e __my_startup                                \
                $(OPS_BASE)                                    \
-               -e reset                                       \
                -Wl,--print-memory-usage                       \
                -Wl,-Map,$(OUTPUT_DIR)/$(PRJ_NAME).map         \
                -T $(LD_SCRIPT)
@@ -167,13 +167,14 @@ all : clean $(OUTPUT_DIR)/$(PRJ_NAME).elf
 
 .PHONY : clean
 clean :
-	@-rm -f $(OBJ_DIR)/*.o       2>/dev/null || true
-	@-rm -f $(OBJ_DIR)/*.err     2>/dev/null || true
-	@-rm -f $(OUTPUT_DIR)/*.hex  2>/dev/null || true
-	@-rm -f $(OUTPUT_DIR)/*.elf  2>/dev/null || true
-	@-rm -f $(OUTPUT_DIR)/*.list 2>/dev/null || true
-	@-rm -f $(OUTPUT_DIR)/*.map  2>/dev/null || true
-	@-rm -f $(OUTPUT_DIR)/*.txt  2>/dev/null || true
+	@-rm -f $(OBJ_DIR)/*.o            2>/dev/null || true
+	@-rm -f $(OBJ_DIR)/*.err          2>/dev/null || true
+	@-rm -f $(OUTPUT_DIR)/kernel.img  2>/dev/null || true
+	@-rm -f $(OUTPUT_DIR)/*.hex       2>/dev/null || true
+	@-rm -f $(OUTPUT_DIR)/*.elf       2>/dev/null || true
+	@-rm -f $(OUTPUT_DIR)/*.list      2>/dev/null || true
+	@-rm -f $(OUTPUT_DIR)/*.map       2>/dev/null || true
+	@-rm -f $(OUTPUT_DIR)/*.txt       2>/dev/null || true
 	@-mkdir -p $(OBJ_DIR)
 	@-mkdir -p $(OUTPUT_DIR)
 
