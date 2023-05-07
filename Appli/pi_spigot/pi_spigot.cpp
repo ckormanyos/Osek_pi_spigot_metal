@@ -28,8 +28,6 @@
 
 //#define PI_SPIGOT_USE_10K_DIGITS
 
-auto pi_spigot_output_count_write(const std::uint32_t d10) -> void;
-
 namespace local
 {
   #if defined(PI_SPIGOT_USE_10K_DIGITS)
@@ -49,23 +47,37 @@ namespace local
   hash_type pi_spigot_hash;
 
   auto pi_spigot_count_of_calculations = static_cast<std::uint32_t>(UINT8_C(0));
+
+  auto pi_spigot_output_digits10 = static_cast<std::uint32_t>(UINT8_C(0));
+
+  auto pi_spigot_output_count_write(const std::uint32_t d10) -> void;
+
+  auto pi_spigot_output_count_write(const std::uint32_t d10) -> void { local::pi_spigot_output_digits10 = d10; }
 }
 
 extern "C"
 {
+  auto mcal_led_toggle(void) -> void;
+
   auto pi_spigot_main() -> int;
 
-  auto pi_spigot_output_count_write(void) -> void;
+  auto pi_spigot_led_toggle(void) -> void;
+
+  auto pi_spigot_lcd_progress(void) -> void;
 }
 
 extern "C"
-auto pi_spigot_output_count_write(void) -> void
+auto pi_spigot_led_toggle(void) -> void
 {
-  const auto d10 = local::pi_spigot_instance.get_output_count();
+  ::mcal_led_toggle();
+}
 
+extern "C"
+auto pi_spigot_lcd_progress(void) -> void
+{
   char pstr[10U] = { 0 };
 
-  const char* pend = util::baselexical_cast(d10, pstr);
+  const char* pend = util::baselexical_cast(local::pi_spigot_output_digits10, pstr);
 
   mcal::lcd::lcd0().write(pstr, static_cast<std::uint_fast8_t>(pend - pstr), 0U);
 
@@ -78,7 +90,7 @@ auto pi_spigot_output_count_write(void) -> void
 
 auto pi_spigot_main() -> int
 {
-  local::pi_spigot_instance.calculate(nullptr, &local::pi_spigot_hash);
+  local::pi_spigot_instance.calculate(local::pi_spigot_output_count_write, &local::pi_spigot_hash);
 
   // Check the hash result of the pi calculation.
   const auto hash_control =

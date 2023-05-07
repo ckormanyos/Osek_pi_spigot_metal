@@ -3,20 +3,20 @@
 /*******************************************************************************************************************
 ** Includes
 *******************************************************************************************************************/
-#include"TCB.h"
-#include"OsAPIs.h"
-
-extern void mcal_led_toggle(void);
-extern void pi_spigot_output_count_write(void);
+#include <TCB.h>
+#include <OsAPIs.h>
 
 //===============================================================================================================================
 // OS TASK : T1
 //===============================================================================================================================
 TASK(T1)
 {
-  mcal_led_toggle();
+  extern void pi_spigot_led_toggle(void);
+  extern void pi_spigot_lcd_progress(void);
 
-  pi_spigot_output_count_write();
+  pi_spigot_led_toggle();
+
+  pi_spigot_lcd_progress();
 
   // Get some prime cycle times with:
   //   Table[Prime[n], {n, 60, 180, 1}]
@@ -38,14 +38,14 @@ TASK(T1)
       {
         OS_ClearEvent(EVT_LED_BLINK);
 
-        mcal_led_toggle();
+        pi_spigot_led_toggle();
       }
 
       if((Events & EVT_LCD_PROGRESS) == EVT_LCD_PROGRESS)
       {
         OS_ClearEvent(EVT_LCD_PROGRESS);
 
-        pi_spigot_output_count_write();
+        pi_spigot_lcd_progress();
       }
     }
     else
