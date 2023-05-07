@@ -34,14 +34,19 @@ than some other popular calculation methods such as AGM.
 The one-hundred-thousand-and-1 decimal digit $\pi$ calculation
 requires slightly more than 20 minutes on this target system.
 
-The microcontroller boots and performs static initialization via self-written
-startup code. Hardware setup (including stack initialization,
-FPU/MMU/LMU-enable, data and instruction caching, etc.)
-is carried out with self-written hybrid assembly/C/C++ code
-in the subroutine `mcal_init()` shortly after reaching `main()`.
-Immediately following this,
-we start the OS via call to `OS_StartOS(...)`. These sequences
-can be found in [main.c](./Appli/main.c).
+The microcontroller boots and performs initialization of stacks
+and C/C++ run-time static initialization with self-written
+hybrid assembly/C/C++ in `reset` in
+[int_vect.s](./ref_app/target/micros/bcm2835_raspi_b/startup/int_vect.s).
+and in `__my_startup()` in
+[crt0.cpp](./ref_app/target/micros/bcm2835_raspi_b/startup/crt0.cpp).
+Hardware setup (including FPU/MMU/LMU-enable, data and instruction caching, etc.)
+is carried out with yet more self-written hybrid assembly/C/C++ code
+in the subroutine `mcal::cpu::init()` and the subroutines
+in `namespace` `detail` called by it.
+After reaching `main()`, we initialize the MCAL
+and start the OS via call to `OS_StartOS(...)`,
+as can be found in [main.c](./Appli/main.c).
 
 The pi-spigot calculation runs continuously and successively in the
 application's idle-task. LED-blinky and calculation progress
