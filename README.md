@@ -35,10 +35,11 @@ The one-hundred-thousand-and-1 decimal digit $\pi$ calculation
 requires slightly more than 20 minutes on this target system.
 
 The microcontroller boots and performs static initialization via self-written
-startup code. Hardware setup including stack initialization,
-FPU/MMU/LMU-enable, data and instruction caching, etc. is carried out
-with self-written hybrid assembly/C/C++ code in the subroutine `mcal_init()`
-shortly after reaching `main()`. Immediately following this,
+startup code. Hardware setup (including stack initialization,
+FPU/MMU/LMU-enable, data and instruction caching, etc.)
+is carried out with self-written hybrid assembly/C/C++ code
+in the subroutine `mcal_init()` shortly after reaching `main()`.
+Immediately following this,
 we start the OS via call to `OS_StartOS(...)`. These sequences
 can be found in [main.c](./Appli/main.c).
 
