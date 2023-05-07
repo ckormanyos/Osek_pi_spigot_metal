@@ -22,7 +22,7 @@ OBJ_DIR    = $(CURDIR)/Tmp/Obj
 SRC_DIR    = $(CURDIR)
 
 CC_ERR_FORMAT_SCRIPT = CompilerErrorFormater.py
-LD_SCRIPT            = $(SRC_DIR)/Startup/Memory_Map.ld
+LD_SCRIPT            = $(SRC_DIR)/ref_app/target/micros/bcm2835_raspi_b/make/bcm2835_raspi_b.ld
 
 ############################################################################################
 # Toolchain
@@ -104,35 +104,35 @@ LOPS         = -x none                                        \
 # Source Files
 ############################################################################################
 
-SRC_FILES :=  $(SRC_DIR)/Appli/main                                                   \
-              $(SRC_DIR)/Appli/tasks                                                  \
-              $(SRC_DIR)/Appli/pi_spigot/pi_spigot                                    \
-              $(SRC_DIR)/Mcal/gpio/gpio                                               \
-              $(SRC_DIR)/Mcal/gpt/gpt                                                 \
-              $(SRC_DIR)/Mcal/mcu/mcu                                                 \
-              $(SRC_DIR)/Mcal/pwr/pwr                                                 \
-              $(SRC_DIR)/Mcal/systimer/systimer                                       \
-              $(SRC_DIR)/Osek/OS                                                      \
-              $(SRC_DIR)/Osek/OsAlarm                                                 \
-              $(SRC_DIR)/Osek/OsEvt                                                   \
-              $(SRC_DIR)/Osek/OsTask                                                  \
-              $(SRC_DIR)/Osek/TCB                                                     \
-              $(SRC_DIR)/Osek/HwPlatform/ARM11/OsAsm                                  \
-              $(SRC_DIR)/ref_app/src/mcal/mcal                                        \
-              $(SRC_DIR)/ref_app/src/mcal/mcal_gcc_cxx_completion_with_stdlib         \
-              $(SRC_DIR)/ref_app/src/mcal/bcm2835_raspi_b/mcal_cpu                    \
-              $(SRC_DIR)/ref_app/src/mcal/bcm2835_raspi_b/mcal_cpu_detail             \
-              $(SRC_DIR)/ref_app/src/mcal/bcm2835_raspi_b/mcal_cpu_detail_secure      \
-              $(SRC_DIR)/ref_app/src/mcal/bcm2835_raspi_b/mcal_gpt                    \
-              $(SRC_DIR)/ref_app/src/mcal/bcm2835_raspi_b/mcal_lcd                    \
-              $(SRC_DIR)/ref_app/src/mcal/bcm2835_raspi_b/mcal_led                    \
-              $(SRC_DIR)/ref_app/src/mcal/bcm2835_raspi_b/mcal_port                   \
-              $(SRC_DIR)/ref_app/src/mcal/bcm2835_raspi_b/mcal_spi                    \
-              $(SRC_DIR)/Startup/crt0                                                 \
-              $(SRC_DIR)/Startup/crt0_init_ram                                        \
-              $(SRC_DIR)/Startup/crt1                                                 \
-              $(SRC_DIR)/Startup/Exceptions                                           \
-              $(SRC_DIR)/Startup/IntVectTable
+SRC_FILES :=  $(SRC_DIR)/Appli/main                                                        \
+              $(SRC_DIR)/Appli/tasks                                                       \
+              $(SRC_DIR)/Appli/pi_spigot/pi_spigot                                         \
+              $(SRC_DIR)/Mcal/gpio/gpio                                                    \
+              $(SRC_DIR)/Mcal/gpt/gpt                                                      \
+              $(SRC_DIR)/Mcal/mcu/mcu                                                      \
+              $(SRC_DIR)/Mcal/pwr/pwr                                                      \
+              $(SRC_DIR)/Mcal/systimer/systimer                                            \
+              $(SRC_DIR)/Osek/OS                                                           \
+              $(SRC_DIR)/Osek/OsAlarm                                                      \
+              $(SRC_DIR)/Osek/OsEvt                                                        \
+              $(SRC_DIR)/Osek/OsTask                                                       \
+              $(SRC_DIR)/Osek/TCB                                                          \
+              $(SRC_DIR)/Osek/HwPlatform/ARM11/OsAsm                                       \
+              $(SRC_DIR)/ref_app/src/mcal/mcal                                             \
+              $(SRC_DIR)/ref_app/src/mcal/mcal_gcc_cxx_completion_with_stdlib              \
+              $(SRC_DIR)/ref_app/src/mcal/bcm2835_raspi_b/mcal_cpu                         \
+              $(SRC_DIR)/ref_app/src/mcal/bcm2835_raspi_b/mcal_cpu_detail                  \
+              $(SRC_DIR)/ref_app/src/mcal/bcm2835_raspi_b/mcal_cpu_detail_secure           \
+              $(SRC_DIR)/ref_app/src/mcal/bcm2835_raspi_b/mcal_gpt                         \
+              $(SRC_DIR)/ref_app/src/mcal/bcm2835_raspi_b/mcal_irq                         \
+              $(SRC_DIR)/ref_app/src/mcal/bcm2835_raspi_b/mcal_lcd                         \
+              $(SRC_DIR)/ref_app/src/mcal/bcm2835_raspi_b/mcal_led                         \
+              $(SRC_DIR)/ref_app/src/mcal/bcm2835_raspi_b/mcal_port                        \
+              $(SRC_DIR)/ref_app/src/mcal/bcm2835_raspi_b/mcal_spi                         \
+              $(SRC_DIR)/ref_app/target/micros/bcm2835_raspi_b/startup/crt0                \
+              $(SRC_DIR)/ref_app/target/micros/bcm2835_raspi_b/startup/crt0_init_ram       \
+              $(SRC_DIR)/ref_app/target/micros/bcm2835_raspi_b/startup/crt1                \
+              $(SRC_DIR)/ref_app/target/micros/bcm2835_raspi_b/startup/int_vect
 
 ############################################################################################
 # Include Paths
