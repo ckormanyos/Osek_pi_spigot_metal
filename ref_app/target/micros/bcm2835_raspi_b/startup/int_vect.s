@@ -14,18 +14,18 @@
 // ***************************************************************************************
 
 .section .intvect, "ax"
-  b reset                  //Reset
-  b undefined_handler      //Undefined instructions
-  b OsDispatcher           //Software interrupt (SWI)
-  b prefetch_handler       //Prefetch Abort (instruction fetch memory abort)
-  b data_handler           //Data Abort (data access memory abort)
-  b unused_handler         //N.C
-  b OsCat2IsrIrqWrapper    //IRQ (interrupt)
-  b OsCat1Isr              //FIQ (fast interrupt)
+  b reset                              // reset               Reset
+  b __int_vect_undef_instr_handler     // undefined_handler   Undefined instructions
+  b OsDispatcher                       // OsDispatcher        Software interrupt (SWI)
+  b __int_vect_prefetch_abort_handler  // prefetch_handler    Prefetch Abort (instruction fetch memory abort)
+  b __int_vect_data_abort_handler      // data_handler        Data Abort (data access memory abort)
+  b __int_vect_unused_05_handler       // unused_handler      Not used
+  b OsCat2IsrIrqWrapper                // OsCat2IsrIrqWrapper IRQ (interrupt)
+  b OsCat1Isr                          // OsCat1Isr           FIQ (fast interrupt)
 
 .extern __my_startup
 
-.section .text, "ax"
+.section .reset, "ax"
 .globl reset
 .arm
 

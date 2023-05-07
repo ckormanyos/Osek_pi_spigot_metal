@@ -59,7 +59,15 @@ SECTIONS
     KEEP(*(.intvect))
   } > ROM = 0xAAAA
 
-  /* Startup: This is where the program starts. */
+  /* reset: This is where the program starts. */
+  .reset :
+  {
+    *(.reset)
+    . = ALIGN(0x10);
+    KEEP(*(.reset))
+  } > ROM = 0x5555
+
+  /* Startup: This the C/C++ run-time initialization and call to main(). */
   .startup :
   {
     *(.startup)

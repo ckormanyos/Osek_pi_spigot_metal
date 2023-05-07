@@ -28,16 +28,20 @@ bare-metal embedded microcontroller systems.
 In this project, $100,001$ decmal digits of $\pi$ (i.e., one-hundred-thousand-and-1)
 are computed with a spigot algorithm.
 
-The spigot calculation has quadratic numerical complexity (order $N^2$)
-and is (for high digit counts) generally considered slower
+The spigot calculation has quadratic numerical complexity of order $N^2$
+and is, for high digit counts, generally considered slower
 than some other popular calculation methods such as AGM.
 The one-hundred-thousand-and-1 decimal digit $\pi$ calculation
-requires slightly under 30 minutes on this target system.
+requires slightly more than 20 minutes on this target system.
 
 The microcontroller boots and performs static initialization via self-written
-startup code. Hardware setup including clock initialization,
-FPU enable, instruction caching, etc. is carried out with self-written
-hybrid assembly/C++ code shortly after reaching `main()`.
+startup code. Hardware setup (including stack initialization,
+FPU/MMU/LMU-enable, data and instruction caching, etc.)
+is carried out with self-written hybrid assembly/C/C++ code
+in the subroutine `mcal_init()` shortly after reaching `main()`.
+Immediately following this,
+we start the OS via call to `OS_StartOS(...)`. These sequences
+can be found in [main.c](./Appli/main.c).
 
 The pi-spigot calculation runs continuously and successively in the
 application's idle-task. LED-blinky and calculation progress
